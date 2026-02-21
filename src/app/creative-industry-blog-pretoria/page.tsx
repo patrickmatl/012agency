@@ -1,4 +1,4 @@
-import { getAllPosts } from '@/lib/blog'
+import { getAllPostsMeta } from '@/lib/blog'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Metadata } from 'next'
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default async function BlogPage({ searchParams }: Props) {
-  const posts = await getAllPosts()
+  const posts = await getAllPostsMeta()
   const resolvedParams = await searchParams;
   const search = typeof resolvedParams.search === 'string' ? resolvedParams.search : undefined;
 
