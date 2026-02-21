@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import { format } from 'date-fns'
 
 const postsDirectory = path.join(process.cwd(), 'src/content/blog')
+const blogIndexPath = path.join(process.cwd(), 'src/data/blog-index.json')
 
 export type BlogPost = {
   slug: string
@@ -103,6 +104,19 @@ export async function getAllPosts(): Promise<BlogPost[]> {
 }
 
 export async function getAllPostsMeta(): Promise<BlogPostMeta[]> {
+  // Optimization: Use pre-generated JSON index if available
+  // This avoids reading 7000+ files at runtime, which bloats the serverless function bundle
+  try {
+    if (fs.existsSync(blogIndexPath)) {
+      const fileContents = await fs.promises.readFile(blogIndexPath, 'utf8')
+      const posts = JSON.parse(fileContents) as BlogPostMeta[]
+      return posts
+    }
+  } catch (error) {
+    console.warn('Failed to read blog index, falling back to file scan:', error)
+  }
+
+  // Fallback to original method if index missing
   const slugs = getPostSlugs()
   const posts = await Promise.all(
     slugs.map(async (slug) => await getPostMetaBySlug(slug.replace(/\.mdx$/, '')))

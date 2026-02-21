@@ -4,8 +4,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "dev": "next dev",
-    "build": "npm run check:service-schema && next build --webpack",
+    "dev": "node scripts/generate-blog-index.js && next dev",
+    "build": "node scripts/generate-blog-index.js && npm run check:service-schema && next build --webpack",
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
