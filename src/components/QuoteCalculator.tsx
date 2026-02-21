@@ -524,7 +524,7 @@ export default function QuoteCalculator() {
                 publication: 'Print Layout & Publication',
                 app: 'App Design & Development',
                 audio: 'Audio & Post Production',
-                threeD: '3D & Animation',
+                '3d': '3D & Animation',
             };
 
             drawLine(`Service Category: ${categoryLabelMap[selectedCategory]}`, 12);
@@ -665,7 +665,8 @@ export default function QuoteCalculator() {
             });
 
             const pdfBytes = await pdfDoc.save();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const pdfArrayBuffer = new Uint8Array(pdfBytes).buffer;
+            const blob = new Blob([pdfArrayBuffer], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
