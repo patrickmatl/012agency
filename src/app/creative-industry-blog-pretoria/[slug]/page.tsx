@@ -1,10 +1,10 @@
-import { getAllPosts, getPostBySlug } from '@/lib/blog'
+import { getAllPostsMeta, getPostBySlug } from '@/lib/blog'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
-  const posts = await getAllPosts()
+  const posts = await getAllPostsMeta()
   return posts.map((post) => ({
     slug: post.slug,
   }))
