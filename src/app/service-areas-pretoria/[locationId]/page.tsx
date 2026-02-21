@@ -1,0 +1,113 @@
+import { notFound } from 'next/navigation';
+import { locations } from '@/data/locations';
+
+import { Metadata } from 'next';
+import LocationContent from '@/components/LocationContent';
+import LocationSchema from '@/components/LocationSchema';
+
+type Props = {
+  params: Promise<{ locationId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export async function generateMetadata(
+  { params }: Props
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const location = locations.find(l => l.slug === resolvedParams.locationId);
+
+  if (!location) return {
+    title: 'Location Not Found',
+    description: 'The requested location page could not be found.',
+    metadataBase: new URL('https://012agency.co.za'),
+  };
+
+  return {
+    title: `Graphic Design & Web Design Company in ${location.city} | 012 Agency`,
+    description: `Leading graphic design, website design, branding & packaging design company in ${location.city}. Professional creative solutions for businesses across ${location.region}. Expert design services tailored to your needs.`,
+    metadataBase: new URL('https://012agency.co.za'),
+    keywords: [
+      `graphic design company ${location.city.toLowerCase()}`,
+      `website design company ${location.city.toLowerCase()}`,
+      `branding company ${location.city.toLowerCase()}`,
+      `packaging design company ${location.city.toLowerCase()}`,
+      `logo design ${location.city.toLowerCase()}`,
+      `web design agency ${location.city.toLowerCase()}`,
+      `creative agency ${location.city.toLowerCase()}`,
+      `design studio ${location.city.toLowerCase()}`,
+      `brand identity design ${location.city.toLowerCase()}`,
+      `corporate branding ${location.city.toLowerCase()}`
+    ],
+    openGraph: {
+      title: `Graphic Design & Web Design Company in ${location.city} | 012 Agency`,
+      description: `Leading graphic design, website design, branding & packaging design company in ${location.city}. Professional creative solutions for businesses across ${location.region}. Expert design services tailored to your needs.`,
+      url: `https://012agency.co.za/service-areas-pretoria/${location.slug}`,
+      siteName: '012 Agency — Pretoria Design Agency',
+      locale: 'en_ZA',
+      type: 'website',
+      images: [
+        {
+          url: 'https://012agency.co.za/images/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: `012 Agency — Design Company in ${location.city}`,
+        }
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Graphic Design & Web Design Company in ${location.city} | 012 Agency`,
+      description: `Leading graphic design, website design, branding & packaging design company in ${location.city}. Professional creative solutions for businesses across ${location.region}. Expert design services tailored to your needs.`,
+      creator: '@012agency',
+      images: [
+        {
+          url: 'https://012agency.co.za/images/twitter-image.jpg',
+          width: 1200,
+          height: 628,
+          alt: `012 Agency — Design Company in ${location.city}`,
+        }
+      ],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    alternates: {
+      canonical: `https://012agency.co.za/service-areas-pretoria/${location.slug}`,
+    },
+  };
+}
+
+export default async function LocationPage({ params }: Props) {
+  const resolvedParams = await params;
+  const location = locations.find(l => l.slug === resolvedParams.locationId);
+
+  if (!location) notFound();
+
+  const baseUrl = 'https://012agency.co.za';
+
+  // Build-time helper previously unused; removed to silence ESLint warnings
+
+  return (
+    <div className="min-h-screen bg-black">
+      <main className="container mx-auto px-4 py-8">
+        <LocationSchema
+          location={location}
+          baseUrl={baseUrl}
+        />
+        <h1 className="text-4xl font-bold text-white mb-8">
+          {location.city}
+        </h1>
+        <LocationContent location={location} />
+      </main>
+    </div>
+  );
+}

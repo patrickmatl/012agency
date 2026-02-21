@@ -1,0 +1,29 @@
+{
+  "name": "012 Agency — Graphic Design Studio Pretoria",
+  "short_name": "012 Agency",
+  "description": "Pretoria's premier creative design agency — branding, web design, logo design & digital marketing",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#FFD700",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "categories": [
+    "design",
+    "business",
+    "graphics"
+  ],
+  "lang": "en-ZA",
+  "dir": "ltr"
+}

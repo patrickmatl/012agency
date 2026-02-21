@@ -1,0 +1,155 @@
+/* Import critical CSS first */
+@import '../styles/critical.css';
+
+/* Then import Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #ffffff;
+  --background: #000000;
+  --primary: #FFD700;
+  --primary-dark: #FFA500;
+  --font-syne: 'Syne', sans-serif;
+  --font-space-grotesk: 'Space Grotesk', sans-serif;
+  --border: #FFD700;
+  --gold-primary: #FFD700;
+  --gold-secondary: #FFC000;
+  --gold-accent: #FFB000;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  margin: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #FFD700 0%, #FFA500 100%);
+  border-radius: 20px;
+  border: 3px solid rgba(0, 0, 0, 0.8);
+  background-clip: padding-box;
+  min-height: 80px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #FFD700 20%, #FFA500 80%);
+  border: 3px solid rgba(0, 0, 0, 0.8);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #FFD700 rgba(0, 0, 0, 0.1);
+}
+
+/* Base styles */
+html, body {
+  background-color: black;
+  color: white;
+  overflow-x: hidden;
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01" on, "ss02" on, "cv01" on, "cv02" on;
+  font-synthesis: none;
+}
+/* Custom font settings */
+.font-syne {
+  font-variation-settings: "wght" 700;
+  letter-spacing: -0.02em;
+}
+
+/* Custom gradient text */
+.gradient-text {
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Logo Carousel Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-33.33% - 3rem)); /* Adjust based on gap */
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* SEO-only class for hidden but crawlable content */
+.seo-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Pointer-aware visibility: hide custom cursor on coarse pointer devices */
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Mobile performance: keep heavy visuals off on smaller screens */
+@media (max-width: 1024px) {
+  .orb,
+  .animate-gradient {
+    display: none;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom selection color */
+::selection {
+  background: var(--primary);
+  color: var(--background);
+}
+
+/* Disable blue highlight on mobile tap */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
