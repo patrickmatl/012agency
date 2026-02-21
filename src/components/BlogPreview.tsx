@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import OptimizedImage from './OptimizedImage';
-import type { BlogPost } from '@/app/api/blog/route';
+import type { BlogPostMeta } from '@/lib/blog';
 
 function LoadingSkeleton() {
   return (
@@ -21,7 +21,7 @@ function LoadingSkeleton() {
 }
 
 export default function BlogPreview() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPostMeta[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
