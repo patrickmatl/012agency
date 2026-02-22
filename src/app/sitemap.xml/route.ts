@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
+import { locations } from '@/data/locations';
+import { regions } from '@/data/regions';
+import { services } from '@/data/services';
+import { getAllPostsMeta } from '@/lib/blog';
 
-const BASE_URL = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000';
+const BASE_URL = 'https://012agency.co.za';
 
-// List your static routes here
 const staticRoutes = [
   '',
   'about-graphic-design-company-pretoria',
   'project-showcase-pretoria',
   'get-in-touch-pretoria',
-  'pricing',
   'service-areas-pretoria',
   'branding-solutions-pretoria',
   'visual-communication-services-pretoria',
@@ -18,10 +18,12 @@ const staticRoutes = [
   'creative-industry-blog-pretoria',
   'website-cookie-guidelines-pretoria',
   'data-protection-policy-pretoria',
+  'services',
+  'industries',
+  'quote',
 ];
 
-// List your main pricing/service slugs here
-const pricingSlugs = [
+const serviceDetailSlugs = [
   'website-design-pretoria',
   'graphic-design-pretoria',
   'ecommerce-pretoria',
@@ -46,10 +48,46 @@ const pricingSlugs = [
   'website-maintenance-pretoria',
 ];
 
+function getLocationPaths(): string[] {
+  return locations.map((location) => `${BASE_URL}/service-areas-pretoria/${location.slug}`);
+}
+
+function getCityServicePaths(): string[] {
+  const citySlugs: string[] = [];
+
+  regions.forEach((region) => {
+    region.locations.forEach((location) => {
+      citySlugs.push(location.slug);
+      if (location.subLocations) {
+        location.subLocations.forEach((sub) => {
+          citySlugs.push(sub.slug);
+        });
+      }
+    });
+  });
+
+  const uniqueCities = Array.from(new Set(citySlugs));
+
+  return uniqueCities.flatMap((city) =>
+    services.map((service) => `${BASE_URL}/${city}/${service.slug}`)
+  );
+}
+
+async function getBlogPostPaths(): Promise<string[]> {
+  const posts = await getAllPostsMeta();
+  return posts.map((post) => `${BASE_URL}/creative-industry-blog-pretoria/${post.slug}`);
+}
+
 export async function GET() {
+  const blogUrls = await getBlogPostPaths();
+
   const urls = [
     ...staticRoutes.map((route) => `${BASE_URL}/${route}`),
-    ...pricingSlugs.map((slug) => `${BASE_URL}/pricing/${slug}`),
+    ...serviceDetailSlugs.map((slug) => `${BASE_URL}/${slug}`),
+    ...serviceDetailSlugs.map((slug) => `${BASE_URL}/services/${slug}`),
+    ...getLocationPaths(),
+    ...getCityServicePaths(),
+    ...blogUrls,
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
