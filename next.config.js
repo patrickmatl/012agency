@@ -26,8 +26,6 @@ const nextConfig = {
     });
     return config;
   },
-  // Handle static file paths
-  output: 'standalone',
   poweredByHeader: false,
   reactStrictMode: true
 };
