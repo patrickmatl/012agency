@@ -2,9 +2,51 @@ import { getPostBySlug } from '@/lib/blog'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params
+  const post = await getPostBySlug(resolvedParams.slug)
+
+  if (!post) {
+    return {
+      title: 'Blog Post Not Found | 012 Agency',
+      description: 'The requested blog post could not be found.',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  }
+
+  const canonical = `https://012agency.co.za/creative-industry-blog-pretoria/${post.slug}`
+
+  return {
+    title: `${post.title} | 012 Agency`,
+    description: post.excerpt || 'Insights and updates from 012 Agency.',
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: `${post.title} | 012 Agency`,
+      description: post.excerpt || 'Insights and updates from 012 Agency.',
+      url: canonical,
+      siteName: '012 Agency',
+      locale: 'en_ZA',
+      type: 'article',
+      images: post.coverImage
+        ? [
+            {
+              url: post.coverImage,
+            },
+          ]
+        : undefined,
+    },
+  }
 }
 
 export default async function BlogPost({ params }: Props) {

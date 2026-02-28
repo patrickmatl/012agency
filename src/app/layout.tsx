@@ -55,6 +55,7 @@ const organizationSchema = {
 export const metadata: Metadata = {
   title: '012 Agency — Graphic Design & Digital Marketing Agency Pretoria',
   description: 'Professional graphic design, digital marketing, and web design services in Pretoria, South Africa. 012 Agency helps Pretoria businesses grow their brand and online presence.',
+  metadataBase: new URL('https://012agency.co.za'),
   openGraph: {
     title: '012 Agency — Graphic Design & Digital Marketing Agency Pretoria',
     description: 'Professional graphic design, digital marketing, and web design services in Pretoria, South Africa. 012 Agency helps Pretoria businesses grow their brand and online presence.',
@@ -70,9 +71,6 @@ export const metadata: Metadata = {
     ],
     locale: 'en_ZA',
     type: 'website',
-  },
-  alternates: {
-    canonical: 'https://012agency.co.za',
   },
 };
 

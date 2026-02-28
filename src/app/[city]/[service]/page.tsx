@@ -21,13 +21,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const canonical = `https://012agency.co.za/${location.slug}/${service.slug}`;
+
   return {
     title: `${service.title} in ${location.city} | 012 Agency`,
     description: `Professional ${service.title} services in ${location.city}. ${service.description}`,
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title: `${service.title} in ${location.city} | 012 Agency`,
       description: `Professional ${service.title} services in ${location.city}. ${service.description}`,
-      url: `https://012agency.co.za/${location.slug}/${service.slug}`,
+      url: canonical,
       siteName: '012 Agency',
       locale: 'en_ZA',
       type: 'website',

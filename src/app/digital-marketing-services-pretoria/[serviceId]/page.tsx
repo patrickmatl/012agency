@@ -26,6 +26,9 @@ export async function generateMetadata(
     title: service.metaTitle || `${service.title} | 012 Agency`,
     description: service.metaDescription || service.description,
     metadataBase: new URL('https://012agency.co.za'),
+    alternates: {
+      canonical: `https://012agency.co.za/services/${service.slug}`,
+    },
     openGraph: {
       title: service.metaTitle || `${service.title} | 012 Agency`,
       description: service.metaDescription || service.description,
