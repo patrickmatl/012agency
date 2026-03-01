@@ -28,13 +28,17 @@ export function middleware(request: NextRequest) {
     !pathname.startsWith('/_next/') &&
     !pathname.startsWith('/api/');
 
+  // Check if we need to redirect
   if (shouldForceHttps || shouldStripWww || hasTrailingSlash) {
-    url.protocol = 'https:';
-    url.hostname = CANONICAL_HOST;
-    if (hasTrailingSlash) {
-      url.pathname = pathname.replace(/\/+$/, '');
+    // Only redirect if the current setup is actually different from the target
+    if (url.protocol !== 'https:' || url.hostname !== CANONICAL_HOST || hasTrailingSlash) {
+      url.protocol = 'https:';
+      url.hostname = CANONICAL_HOST;
+      if (hasTrailingSlash) {
+        url.pathname = pathname.replace(/\/+$/, '');
+      }
+      return NextResponse.redirect(url, 308);
     }
-    return NextResponse.redirect(url, 308);
   }
 
   return NextResponse.next();
